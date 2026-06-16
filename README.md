@@ -43,7 +43,7 @@ The **-r** flag accepts flexible bounding parameters using an integer or the `$`
 
 # EXAMPLES
 **Extracting a Specific Slice (0-Indexed, with Line Numbers)**
-```
+```sh
 midd -i raw_data.txt -r 10:15 -l
 ```
 Output:
@@ -59,7 +59,7 @@ Output:
 ```
 
 **Matching Text Editor Coordinates (1-Indexed, Quiet Output)**
-```
+```sh
 midd -i source_code.cpp -r 10:12 -l -1 -q
 ```
 Output:
@@ -68,6 +68,14 @@ Output:
 11 | int main() {
 12 |     setup_variables();
 ```
+
+# Midd is also capable of taking input from stdin and output to stdout
+    -if -i is not specified it assumes the input is from stdin
+    -if -o is not specified it will output results to stdout
+```sh
+cat large_file.log | midd -r 100:200 -l > another_file.txt
+```
+
 
 # CORE ARCHITECTURE & VALIDATION
 **Fail-Fast Range Policy**
@@ -80,3 +88,56 @@ When running in printable-only modes, the utility filters incoming byte streams 
 
 This project is licensed under the terms of the GNU General Public License version 3 (GPL-3.0). See the [LICENSE](LICENSE) file for the full license text.
 
+## Download and build
+
+You can find the latest release at https://github.com/Did-Nikole/Midd/releases/latest
+
+
+
+## Requirements
+
+### To Build
+- **Compiler**: A C++20 compatible compiler (e.g., GCC 11+ or Clang 13+)
+- **Build System**: Make
+- **Documentation (Optional)**: Pandoc (needed to build/generate the man page file `midd.1` from markdown)
+
+### To Package (Optional)
+- **Debian (`.deb`)**: `dpkg-deb` (standard on Debian/Ubuntu)
+- **Red Hat (`.rpm`)**: `rpmbuild`
+
+
+## Download, Build, & Installation
+You can find pre-compiled releases and packages at the [GitHub Releases Page](https://github.com/Did-Nikole/Midd/releases/latest).
+
+### Building from Source
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Did-Nikole/Midd.git
+   cd Midd
+   ```
+2. Compile the binary and the man page:
+   ```bash
+   make
+   ```
+3. Install on your system:
+   ```bash
+   sudo make install
+   ```
+   *This installs the `midd` binary to `/usr/local/bin` and the man page to `/usr/local/share/man/man1/midd.1`.*
+4. To uninstall:
+   ```bash
+   sudo make uninstall
+   ```
+---
+## Packaging
+You can compile standalone packages natively without installing any files directly to your host:
+### Debian Package (`.deb`)
+```bash
+make deb
+```
+*Creates the Debian package in the `dist/` folder. You can install it on Debian/Ubuntu/Mint with `sudo dpkg -i dist/midd_*.deb`.*
+### RPM Package (`.rpm`)
+```bash
+make rpm
+```
+*Creates the RPM package in the `dist/` folder. You can install it on Fedora/CentOS/RHEL with `sudo rpm -i dist/midd-*.rpm` or `sudo dnf install dist/midd-*.rpm`.*
