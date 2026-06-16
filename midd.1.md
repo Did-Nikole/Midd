@@ -1,13 +1,4 @@
----
-title: MIDD
-section: 1
-date: June 2026
-header: Midd User Manual
-footer: Version 1.0.2
-author: Nikole Smith
----
-
-# NAME
+# MIDD
 midd - extracts precise, bounded intervals of lines from a stream or file
 
 # SYNOPSIS
@@ -87,5 +78,5 @@ When running in printable-only modes, the utility filters incoming byte streams 
 
 ## License
 
-This project is licensed under the terms of the GNU General Public License version 3 (GPL-3.0). See the [LICENSE](file://LICENSE) file for the full license text.
+This project is licensed under the terms of the GNU General Public License version 3 (GPL-3.0). See the [LICENSE](LICENSE) file for the full license text.
 
