@@ -1,0 +1,8 @@
+
+--- Logger Initialized ---
+[2026-06-16 19:09:24] Starting midd with command line arguments processed.
+[2026-06-16 19:09:24] Entering Midd::midd
+[2026-06-16 19:09:24] Options: start.enabled=1, start.value=2, end.enabled=1, end.value=10, one_indexed=0, lines=0
+[2026-06-16 19:09:24] Line 2: Start condition met, enabling output.
+[2026-06-16 19:09:24] Line 10: End condition met, breaking loop.
+[2026-06-16 19:09:24] Exiting Midd::midd. Total lines read: 10
