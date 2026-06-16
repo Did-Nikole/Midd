@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2026 Nikole Smith (ApptsolutioNZ - appsolutionz.com)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 #pragma once
 
 #include <map>
@@ -19,8 +35,8 @@ enum class ArgType { STRING, INTEGER, BOOLEAN, DOUBLE, REGEX, ULONGLONG };
 /**
  * @brief Represents the values parsed from the command line.
  */
-using ArgValue =
-    std::variant<std::string, int, double, bool, unsigned long long, std::vector<std::string>>;
+using ArgValue = std::variant<std::string, int, double, bool,
+                              unsigned long long, std::vector<std::string>>;
 
 /**
  * @brief Defines the specification for a single command-line argument.
@@ -274,7 +290,8 @@ ArgsParser::processValue(const ArgSpec &spec,
   }
   case ArgType::ULONGLONG: {
     if (!valStr.empty() && valStr[0] == '-') {
-      std::cerr << "Error: Value '" << valStr << "' cannot be negative for an unsigned argument."
+      std::cerr << "Error: Value '" << valStr
+                << "' cannot be negative for an unsigned argument."
                 << std::endl;
       return std::nullopt;
     }
@@ -285,8 +302,8 @@ ArgsParser::processValue(const ArgSpec &spec,
         throw std::invalid_argument("Remaining chars");
       return val;
     } catch (...) {
-      std::cerr << "Error: Value '" << valStr << "' is not a valid unsigned long long."
-                << std::endl;
+      std::cerr << "Error: Value '" << valStr
+                << "' is not a valid unsigned long long." << std::endl;
       return std::nullopt;
     }
   }
@@ -506,7 +523,8 @@ void ArgsParser::showHelp() const {
         std::cout << std::get<std::string>(spec.defaultValue.value());
       } else if (std::holds_alternative<int>(spec.defaultValue.value())) {
         std::cout << std::get<int>(spec.defaultValue.value());
-      } else if (std::holds_alternative<unsigned long long>(spec.defaultValue.value())) {
+      } else if (std::holds_alternative<unsigned long long>(
+                     spec.defaultValue.value())) {
         std::cout << std::get<unsigned long long>(spec.defaultValue.value());
       } else if (std::holds_alternative<double>(spec.defaultValue.value())) {
         std::cout << std::get<double>(spec.defaultValue.value());
