@@ -94,15 +94,39 @@ Midd::Result Midd::parseRange(const std::string &range, Options &opt) {
     return {.isError = true, .error = "Invalid range format"};
   }
 
+  auto isValidComponent = [](const std::string &s) {
+    if (s.empty() || s == "$") return true;
+    for (char c : s) {
+      if (!std::isdigit(static_cast<unsigned char>(c))) return false;
+    }
+    return true;
+  };
+
   // if start of range is not $ or empty string set opt.start.enabled to true
   if (range.substr(0, colon_pos) != "$" && colon_pos > 0) {
-    opt.start.enabled = true;
-    opt.start.value = std::stoull(range.substr(0, colon_pos));
+    std::string start_str = range.substr(0, colon_pos);
+    if (!isValidComponent(start_str)) {
+      return {.isError = true, .error = "Invalid range format"};
+    }
+    try {
+      opt.start.enabled = true;
+      opt.start.value = std::stoull(start_str);
+    } catch (...) {
+      return {.isError = true, .error = "Range value out of bounds"};
+    }
   }
 
   if (range.substr(colon_pos + 1) != "$" && colon_pos + 1 < range.size()) {
-    opt.end.enabled = true;
-    opt.end.value = std::stoull(range.substr(colon_pos + 1));
+    std::string end_str = range.substr(colon_pos + 1);
+    if (!isValidComponent(end_str)) {
+      return {.isError = true, .error = "Invalid range format"};
+    }
+    try {
+      opt.end.enabled = true;
+      opt.end.value = std::stoull(end_str);
+    } catch (...) {
+      return {.isError = true, .error = "Range value out of bounds"};
+    }
   }
   // if range is invalid return error
   if (opt.start.enabled && opt.end.enabled && opt.start.value > opt.end.value) {
@@ -110,7 +134,7 @@ Midd::Result Midd::parseRange(const std::string &range, Options &opt) {
             .error = "Start must be less than or equal to end"};
   }
   return {.isError = false};
-};
+}
 
 std::string Midd::stripNonPrintable(const std::string &input,
                                     bool &hasStripped) {
